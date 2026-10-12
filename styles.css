@@ -15,7 +15,7 @@ body {
 }
 
 body {
-  overflow: auto;
+  overflow-x: hidden;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
@@ -26,10 +26,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 100vw;
+  width: 100%;
   min-height: 100vh;
   padding: 5vw;
-  overflow: visible;
+  overflow: hidden;
   font-size: clamp(4rem, 15vw, 14rem);
   font-weight: 700;
   letter-spacing: -0.08em;
@@ -132,6 +132,44 @@ body {
   animation:
     meme-reveal 18s ease-out forwards,
     meme-bounce 1.6s ease-in-out 18s infinite;
+}
+
+@media (max-width: 600px) {
+  .stage {
+    min-height: 100svh;
+    padding: 1rem;
+    font-size: clamp(3.75rem, 22vw, 6.5rem);
+  }
+
+  .word-you {
+    transform: translateX(-4vw);
+  }
+
+  .word-sense {
+    transform: translateX(4vw);
+  }
+
+  .center-word {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  .subtitle {
+    top: calc(50% + 15vw);
+    width: calc(100% - 2rem);
+    font-size: clamp(0.8rem, 4.2vw, 1.1rem);
+    text-align: center;
+  }
+
+  .final-text {
+    top: calc(50% + 25vw);
+    width: calc(100% - 2rem);
+    font-size: clamp(1.25rem, 7vw, 2rem);
+  }
+
+  .laughing-meme {
+    top: calc(50% + 42vw);
+    font-size: clamp(2.5rem, 14vw, 4rem);
+  }
 }
 
 @keyframes drift-left {
@@ -263,6 +301,36 @@ body {
 
   50% {
     transform: translateX(-50%) translateY(-10px) rotate(-8deg) scale(1.12);
+  }
+}
+
+@media (max-width: 600px) {
+  @keyframes drift-left {
+    0% {
+      transform: translateX(-4vw) scale(1);
+    }
+
+    50% {
+      transform: translateX(-28vw) scale(1.08);
+    }
+
+    100% {
+      transform: translateX(-48vw) scale(1.08);
+    }
+  }
+
+  @keyframes drift-right {
+    0% {
+      transform: translateX(4vw) scale(1);
+    }
+
+    50% {
+      transform: translateX(28vw) scale(1.08);
+    }
+
+    100% {
+      transform: translateX(48vw) scale(1.08);
+    }
   }
 }
 
