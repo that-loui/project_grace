@@ -1,106 +1,206 @@
 :root {
   color-scheme: dark;
+
   --background: #101010;
   --foreground: #f4f0e8;
+  --accent: #c4b5fd;
+
+  /* Mobile-first typography */
+  --stage-font-size: clamp(2rem, 10vw, 4rem);
+  --center-font-size: clamp(1.5rem, 7vw, 2.5rem);
+  --subtitle-font-size: clamp(0.75rem, 3vw, 1rem);
+  --final-font-size: clamp(0.95rem, 4vw, 1.25rem);
+  --meme-font-size: clamp(2rem, 10vw, 3rem);
+
+  /* Animation positioning */
+  --word-start: 5vw;
+  --word-mid: 17vw;
+  --word-end: 28vw;
+  --word-scale: 1.05;
+
+  /* Vertical positioning */
+  --subtitle-offset: 12vh;
+  --final-offset: 20vh;
+  --meme-offset: 30vh;
+
+  /* Layout */
+  --content-width: 100%;
 }
 
 * {
   box-sizing: border-box;
 }
 
-html,
+html {
+  min-height: 100%;
+  overflow-x: clip;
+}
+
 body {
   min-height: 100%;
   margin: 0;
-}
-
-body {
   overflow-x: hidden;
+
   background: var(--background);
   color: var(--foreground);
+
   font-family: Arial, Helvetica, sans-serif;
 }
 
+#root {
+  min-height: 100vh;
+}
+
+/* =========================
+   Main Stage
+========================= */
+
 .stage {
   position: relative;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   width: 100%;
   min-height: 100vh;
-  padding: 5vw;
+  min-height: 100svh;
+
+  padding: 1rem;
   overflow: hidden;
-  font-size: clamp(4rem, 15vw, 14rem);
+
+  font-size: var(--stage-font-size);
   font-weight: 700;
-  letter-spacing: -0.08em;
-  line-height: 0.8;
-  white-space: nowrap;
+  letter-spacing: -0.07em;
+  line-height: 0.95;
+
+  isolation: isolate;
 }
+
+/* =========================
+   Animated Words
+========================= */
 
 .word-pair {
   position: relative;
+  z-index: 1;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .word {
   display: block;
+  flex-shrink: 0;
+
+  max-width: none;
+
+  font-size: inherit;
+  line-height: 1;
+
   animation-duration: 18s;
   animation-fill-mode: forwards;
   animation-timing-function: ease-in-out;
 }
 
 .word-you {
-  transform: translateX(-14vw);
+  transform: translateX(calc(0px - var(--word-start)));
   animation-name: drift-left;
 }
 
 .word-sense {
-  transform: translateX(14vw);
+  transform: translateX(var(--word-start));
   animation-name: drift-right;
 }
 
+/* =========================
+   Center Word
+========================= */
+
 .center-word {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0.7);
-  opacity: 0;
-  font-size: clamp(2.25rem, 4vw, 5rem);
-  letter-spacing: -0.06em;
-  line-height: 1;
-  color: var(--foreground);
-  animation: center-reveal 18s ease-in-out forwards;
   z-index: 2;
+
+  top: 50%;
+  left: 50%;
+
+  width: max-content;
+  max-width: calc(100% - 2rem);
+
+  transform: translate(-50%, -50%) scale(0.7);
+
+  color: var(--foreground);
+
+  font-size: var(--center-font-size);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+  text-align: center;
+
+  overflow-wrap: anywhere;
+
+  opacity: 0;
+
+  animation: center-reveal 18s ease-in-out forwards;
 }
+
+/* =========================
+   Subtitle
+========================= */
 
 .subtitle {
   position: absolute;
+  z-index: 3;
+
+  top: calc(50% + var(--subtitle-offset));
   left: 50%;
-  top: calc(50% + 6.5vw);
-  transform: translateX(-50%);
+
+  width: calc(100% - 2rem);
+  max-width: 34rem;
+
   margin: 0;
-  font-size: clamp(0.9rem, 1.8vw, 2rem);
+
+  transform: translateX(-50%);
+
+  color: #c6c1d1;
+
+  font-size: var(--subtitle-font-size);
+  font-weight: 400;
   letter-spacing: 0.04em;
-  line-height: 1.2;
+  line-height: 1.6;
+  text-align: center;
   text-transform: lowercase;
+
+  overflow-wrap: anywhere;
+
   opacity: 0;
+
   animation: subtitle-fade 18s ease-in-out forwards;
 }
 
+/* =========================
+   Final Message
+========================= */
+
 .final-text {
   position: absolute;
+  z-index: 4;
+
+  top: calc(50% + var(--final-offset));
   left: 50%;
-  top: calc(50% + 9.5vw);
-  transform: translateX(-50%) translateY(12px);
-  width: min(80vw, 32rem);
+
+  width: var(--content-width);
+  max-width: calc(100% - 2rem);
+
   margin: 0;
-  font-size: clamp(1rem, 3vw, 3rem);
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  text-align: center;
+
+  transform: translateX(-50%) translateY(12px);
+
   background: linear-gradient(
     90deg,
     #ff4d6d,
@@ -110,93 +210,88 @@ body {
     #9b5de5,
     #ff4d6d
   );
+
   background-size: 300% 100%;
-  -webkit-background-clip: text;
   background-clip: text;
+  -webkit-background-clip: text;
+
   color: transparent;
+
+  font-size: var(--final-font-size);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  text-align: center;
+
+  overflow-wrap: anywhere;
+  word-break: normal;
+
   opacity: 0;
+
   animation:
     final-reveal 18s ease-out forwards,
     color-flow 6s linear 18s infinite,
     final-pulse 1.8s ease-in-out 18s infinite;
 }
 
+/* =========================
+   Laughing Emoji
+========================= */
+
 .laughing-meme {
   position: absolute;
+  z-index: 5;
+
+  top: calc(50% + var(--meme-offset));
   left: 50%;
-  top: calc(50% + 14.5vw);
+
+  max-width: calc(100% - 2rem);
+
+  margin: 0;
+
   transform: translateX(-50%) translateY(12px) scale(0.7);
-  font-size: clamp(2.5rem, 6vw, 6rem);
+
+  font-size: var(--meme-font-size);
   line-height: 1;
+
   opacity: 0;
+
   animation:
     meme-reveal 18s ease-out forwards,
     meme-bounce 1.6s ease-in-out 18s infinite;
 }
 
-@media (max-width: 600px) {
-  .stage {
-    min-height: 100svh;
-    padding: 1rem;
-    font-size: clamp(3.75rem, 22vw, 6.5rem);
-  }
-
-  .word-you {
-    transform: translateX(-4vw);
-  }
-
-  .word-sense {
-    transform: translateX(4vw);
-  }
-
-  .center-word {
-    font-size: clamp(2rem, 9vw, 3rem);
-  }
-
-  .subtitle {
-    top: calc(50% + 15vw);
-    width: calc(100% - 2rem);
-    font-size: clamp(0.8rem, 4.2vw, 1.1rem);
-    text-align: center;
-  }
-
-  .final-text {
-    top: calc(50% + 25vw);
-    width: calc(100% - 2rem);
-    font-size: clamp(1rem, 4vw, 1.2rem);
-  }
-
-  .laughing-meme {
-    top: calc(50% + 42vw);
-    font-size: clamp(2.5rem, 14vw, 4rem);
-  }
-}
+/* =========================
+   Animations
+========================= */
 
 @keyframes drift-left {
   0% {
-    transform: translateX(-14vw) scale(1);
+    transform: translateX(calc(0px - var(--word-start))) scale(1);
   }
 
   50% {
-    transform: translateX(-42vw) scale(1.2);
+    transform: translateX(calc(0px - var(--word-mid)))
+      scale(var(--word-scale));
   }
 
   100% {
-    transform: translateX(-62vw) scale(1.2);
+    transform: translateX(calc(0px - var(--word-end)))
+      scale(var(--word-scale));
   }
 }
 
 @keyframes drift-right {
   0% {
-    transform: translateX(14vw) scale(1);
+    transform: translateX(var(--word-start)) scale(1);
   }
 
   50% {
-    transform: translateX(42vw) scale(1.2);
+    transform: translateX(var(--word-mid)) scale(var(--word-scale));
   }
 
   100% {
-    transform: translateX(62vw) scale(1.2);
+    transform: translateX(var(--word-end)) scale(var(--word-scale));
   }
 }
 
@@ -275,7 +370,7 @@ body {
   }
 
   50% {
-    transform: translateX(-50%) scale(1.08);
+    transform: translateX(-50%) scale(1.04);
   }
 }
 
@@ -300,42 +395,135 @@ body {
   }
 
   50% {
-    transform: translateX(-50%) translateY(-10px) rotate(-8deg) scale(1.12);
+    transform: translateX(-50%) translateY(-8px) rotate(-6deg) scale(1.08);
   }
 }
 
-@media (max-width: 600px) {
-  @keyframes drift-left {
-    0% {
-      transform: translateX(-4vw) scale(1);
-    }
+/* =========================
+   Larger Phones
+========================= */
 
-    50% {
-      transform: translateX(-28vw) scale(1.08);
-    }
+@media (min-width: 420px) {
+  :root {
+    --stage-font-size: clamp(3rem, 10vw, 5rem);
+    --center-font-size: clamp(2rem, 6vw, 3rem);
 
-    100% {
-      transform: translateX(-48vw) scale(1.08);
-    }
+    --word-start: 6vw;
+    --word-mid: 20vw;
+    --word-end: 32vw;
+
+    --subtitle-offset: 10vh;
+    --final-offset: 18vh;
+    --meme-offset: 28vh;
   }
 
-  @keyframes drift-right {
-    0% {
-      transform: translateX(4vw) scale(1);
-    }
-
-    50% {
-      transform: translateX(28vw) scale(1.08);
-    }
-
-    100% {
-      transform: translateX(48vw) scale(1.08);
-    }
+  .stage {
+    padding: 1.5rem;
   }
 }
+
+/* =========================
+   Tablets
+========================= */
+
+@media (min-width: 725px) {
+  :root {
+    --stage-font-size: clamp(4rem, 10vw, 8rem);
+    --center-font-size: clamp(2.5rem, 5vw, 4rem);
+    --subtitle-font-size: clamp(1rem, 1.8vw, 1.4rem);
+    --final-font-size: clamp(1.25rem, 2.5vw, 2rem);
+    --meme-font-size: clamp(3rem, 5vw, 4.5rem);
+
+    --word-start: 8vw;
+    --word-mid: 25vw;
+    --word-end: 40vw;
+
+    --subtitle-offset: 9vh;
+    --final-offset: 16vh;
+    --meme-offset: 25vh;
+
+    --content-width: min(80vw, 42rem);
+  }
+
+  .stage {
+    padding: 2rem;
+  }
+
+  .subtitle {
+    max-width: 40rem;
+  }
+}
+
+/* =========================
+   Desktops
+========================= */
+
+@media (min-width: 1024px) {
+  :root {
+    --stage-font-size: clamp(6rem, 12vw, 12rem);
+    --center-font-size: clamp(3rem, 4vw, 5rem);
+    --subtitle-font-size: clamp(1.1rem, 1.5vw, 1.6rem);
+    --final-font-size: clamp(1.5rem, 2.5vw, 2.75rem);
+    --meme-font-size: clamp(3.5rem, 5vw, 5rem);
+
+    --word-start: 10vw;
+    --word-mid: 30vw;
+    --word-end: 48vw;
+
+    --subtitle-offset: 8vh;
+    --final-offset: 15vh;
+    --meme-offset: 23vh;
+
+    --content-width: min(75vw, 48rem);
+  }
+
+  .stage {
+    padding: 3rem;
+  }
+}
+
+/* =========================
+   Short Screens
+========================= */
+
+@media (max-height: 600px) {
+  .stage {
+    min-height: 600px;
+  }
+
+  :root {
+    --subtitle-offset: 4rem;
+    --final-offset: 7rem;
+    --meme-offset: 11rem;
+  }
+}
+
+/* =========================
+   Reduced Motion
+========================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .word,
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .word {
+    animation: none;
+  }
+
+  .word-you {
+    transform: translateX(calc(0px - var(--word-end)));
+  }
+
+  .word-sense {
+    transform: translateX(var(--word-end));
+  }
+
   .center-word,
   .subtitle {
     animation: none;
@@ -345,6 +533,7 @@ body {
   .final-text {
     animation: none;
     opacity: 1;
+    transform: translateX(-50%);
   }
 
   .laughing-meme {
