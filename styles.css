@@ -95,9 +95,9 @@ body {
   left: 50%;
   top: calc(50% + 9.5vw);
   transform: translateX(-50%) translateY(12px);
-  width: min(90vw, 42rem);
+  width: min(80vw, 32rem);
   margin: 0;
-  font-size: clamp(1.5rem, 3.5vw, 3.75rem);
+  font-size: clamp(1rem, 3vw, 3rem);
   letter-spacing: 0.02em;
   line-height: 1.2;
   text-align: center;
@@ -163,7 +163,7 @@ body {
   .final-text {
     top: calc(50% + 25vw);
     width: calc(100% - 2rem);
-    font-size: clamp(1.25rem, 7vw, 2rem);
+    font-size: clamp(1rem, 4vw, 1.2rem);
   }
 
   .laughing-meme {
